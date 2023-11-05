@@ -1,6 +1,20 @@
-# IntermediateService
+# ![image_info](./src/assets/Angular_logo2.png) Angular Using an Intermediate service for data sharing between components
+### IntermediateService
 
+
+This is a very simple demo project in how one can use a shared servive for exchanging data between 2 un-related component.
+
+
+![image_info](./src/assets/GIF1.gif)
+
+
+
+# Default Instructions
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
+
+
+
+
 
 ## Development server
 
