@@ -6,8 +6,20 @@
     <br>
     <button type="button" (click)="onClick(input.value)">Send</button>
     <br>
-<dIv class="tcenter" *ngIf="subTitle1">   
-    {{subTitle1}}    
-</dIv>
+
+    <div class="inner-row">
+        <div class="inner-column" style="background-color:#f5f5cd;">
+          <h5 style="margin-top:1px;"> <u> Received </u></h5>
+          <!-- <textarea rows="5">  -->
+            {{msgReceived}}
+          <!-- </textarea>  -->
+        </div>
+        <div class="inner-column" style="background-color:#d2f3f9;">
+          <h5 style="margin-top:1px;"><u> Sent </u> </h5>
+          {{msgSent}}
+        </div>
+
+    </div>
+
 <br>
 </div>

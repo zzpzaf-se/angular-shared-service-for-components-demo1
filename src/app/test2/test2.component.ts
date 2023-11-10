@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { IMsg, ShareDataService } from '../share-data.service';
-import { BehaviorSubject, Subscription, map, tap } from 'rxjs';
+import { Subscription} from 'rxjs';
 
 @Component({
   selector: 'test2',
   templateUrl: './test2.component.html',
   styleUrls: ['./test2.component.css']
 })
-export class Test2Component {
+export class Test2Component implements OnInit{
 
   private subscription!: Subscription ;
-  public subTitle2: string = ''; 
-  public behaviorSubject = new BehaviorSubject<IMsg>({sender: '', msg: ''});
+  public msgReceived: string = ''; 
+  public msgSent : string = ''; 
   public compName = this.constructor.name;
 
   constructor(private sharedService: ShareDataService) {
 
-    // OK  from within Constructor! - Using a subscription with 'normal' subscribe - this is the 'classic' new way - The servce uses just a Subject!
-    // --------------------------------------------------------------------------------------------------------------------
     // console.log( '>===>> 1.' + this.compName + ' - ' + 'Constructor - '+  'Getting subTitle value from sharedService.');
     // this.subscription =  this.sharedService.getData().subscribe({
     //     next: (fmsg: IMsg) => { 
@@ -32,26 +30,28 @@ export class Test2Component {
  }
 
   ngOnInit(): void {
-
-    console.log( '>===>> 1.' + this.compName  + ' - ' + 'ngOnInit - ' +  'Getting subTitle value from sharedService.');
-    this.subscription =  this.sharedService.getData().subscribe({
+    //setTimeout(() => {  
+      this.subscription =  this.sharedService.getData().subscribe({
         next: (fmsg: IMsg) => { 
-          if (fmsg.sender != this.compName) this.subTitle2 = fmsg.sender + ': ' + fmsg.msg;
-          console.log( '>===>> 2.' + this.compName  + ' - ' + 'ngOnInit - '+  'SubTitle value from sharedService:' + fmsg.msg + ' - ' + this.subTitle2); 
+          if (fmsg.sender != this.compName) this.msgReceived = (this.msgReceived.trim().length == 0 ) ? fmsg.sender + ': ' + fmsg.msg + '\n' : this.msgReceived + fmsg.sender + ': ' + fmsg.msg + '\n';
+          console.log( '>===>> ' + this.compName  + ' - ' + 'ngOnInit - '+  'Message value from sharedService: ' + this.msgReceived); //+ fmsg.sender + ': ' + fmsg.msg ); 
         }, 
         error: (error) => {
-          console.log(error + this.compName  + ' - ' + 'ngOnInit - ' + 'Error getting subTitle value from sharedService.');
+          console.log('>===>> ' + error + this.compName  + ' - ' + 'ngOnInit - ' + 'Error getting message value from sharedService.');
         }
       });
+    //}, 2000);  // Up to around 2990 it succeeds in capturing initial values.
 
-      this.sharedService.setData({sender: this.compName, msg: 'Initial Hello from ngOnInit!'});
-    
-    }
+      let msg = {sender: this.compName, msg: 'Initial Hello from ngOnInit!'}
+      this.sharedService.setData(msg); 
+      this.msgSent = (msg.msg) + '\n';    
+  }
 
   
   onClick(msgToBeSend:string) {
-    console.log( '>===>> Test1Component - ' + 'onClick - '+  'Sending msg to sharedService:' + ' - ' + msgToBeSend);
+    console.log( '>===>> ' + this.compName  + ' - '  + 'onClick - '+  'Sending msg to sharedService:' + ' - ' + msgToBeSend);
     this.sharedService.setData({sender: this.compName, msg: msgToBeSend});
+    this.msgSent = this.msgSent + msgToBeSend + '\n';
   }
 
 

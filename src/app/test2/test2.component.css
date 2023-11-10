@@ -13,3 +13,20 @@
     background: #eab6d5;
     padding: 0 1rem;
   }
+
+  .inner-row {
+    display: flex;
+    height: 100%;
+    gap: 1%;
+    align-content: space-evenly;
+
+  }
+  
+  .inner-column {
+    flex: 45%;
+    padding: 1%;
+    height: 150px;
+    display: inline-block;
+    align-self: flex-end;
+    overflow-y: auto;
+  }
